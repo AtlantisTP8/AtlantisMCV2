@@ -42,7 +42,7 @@ nav {
 .nav-btn:hover::before { opacity:1; }
 .nav-btn:hover {
   color:#00eeff; border-color:rgba(0,220,255,0.7);
-  box-shadow:0 0 14px rgba(0,200,255,0.4),inset 0 0 10px rgba(0,200,255,0.08);
+  box-shadow: 0 0 20px #ff66cc, inset 0 0 10px #cc33ff;
   text-shadow:0 0 10px #00eeff;
 }
 .nav-btn.active {
@@ -83,6 +83,7 @@ nav {
   display:block; font-size:clamp(36px,6vw,62px); font-weight:900;
   letter-spacing:5px; margin-top:6px;
   color:#00aaff; text-shadow:0 0 30px #0066ff,0 0 70px rgba(0,100,255,0.4);
+  text-shadow: 0 0 30px #ff66cc, 0 0 70px rgba(255,100,200,0.4);
 }
 .hero-desc {
   font-size:16px; color:rgba(160,210,255,0.7);
@@ -494,8 +495,14 @@ function drawFrame(t) {
   ctx.fillRect(0, 0, W, H);
 
   // === ORION-STYLE NEBULA CLOUDS ===
+  n.x += Math.sin(Date.now()/5000)*0.2;
   nebulaClouds.forEach(n => {
     // Multi-layer for volumetric depth
+    const starColors = [
+      '#ffffff','#cce8ff','#aad4ff',
+      '#ff99ff','#ff66cc','#cc66ff' // pembe ve mor neon
+    ];
+
     const layers = n.bright ? 4 : 3;
     for (let l = 0; l < layers; l++) {
       const frac = l / (layers - 1);
@@ -633,6 +640,11 @@ function drawFrame(t) {
   ctx.fillStyle = centerGrad; ctx.fill();
 
   // Photon ring — event horizon glow
+  ctx.beginPath();
+  ctx.arc(bx, by, br*1.4 + Math.sin(t*0.005)*20, 0, Math.PI*2);
+  ctx.strokeStyle = 'rgba(0,200,255,0.3)';
+  ctx.lineWidth = 4;
+  ctx.stroke();
   ctx.save();
   ctx.translate(bx, by); ctx.scale(1, 0.32);
   const ehGrad = ctx.createRadialGradient(0, 0, br * 0.60, 0, 0, br * 0.78);
