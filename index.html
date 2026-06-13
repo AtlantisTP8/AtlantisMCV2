@@ -505,8 +505,22 @@ function drawFrame(t) {
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     ctx.fill();
+
+    // BURAYA EKLE
+    if (s.r > 1.5) { // sadece büyük yıldızlar
+      ctx.globalAlpha = alpha * 0.25;
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = 0.5;
+      const spLen = s.r * 6;
+      ctx.beginPath();
+      ctx.moveTo(s.x - spLen, s.y); ctx.lineTo(s.x + spLen, s.y);
+      ctx.moveTo(s.x, s.y - spLen); ctx.lineTo(s.x, s.y + spLen);
+      ctx.stroke();
+    }
+
     ctx.restore();
   });
+
 
   // Galaxy spiral arms
   galaxyCore.angle = t * 0.00042;
@@ -524,7 +538,8 @@ function drawFrame(t) {
       const py = Math.sin(angle) * radius * 0.6;
       i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
     }
-    ctx.strokeStyle = armColors[arm];
+    const dynamicHue = (200 + (t*0.02) % 100);
+    ctx.strokeStyle = `hsl(${dynamicHue},100%,70%)`;
     ctx.globalAlpha = 0.25;
     ctx.lineWidth = 2;
     ctx.stroke();
