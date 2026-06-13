@@ -482,11 +482,11 @@ function init() {
 
   // Orbital particles
   particles = Array.from({length: 80}, () => {
-    const dist = rand(blackhole.r * 1.02, blackhole.r * 2.4);
+    const dist = rand(galaxyCore.r * 1.02, galaxyCore.r * 2.4);
     return {
       angle: rand(0, Math.PI * 2),
       dist,
-      speed: rand(0.003, 0.016) * (dist < blackhole.r * 1.5 ? 1.6 : 1),
+      speed: rand(0.003, 0.016) * (dist < galaxyCore.r * 1.5 ? 1.6 : 1),
       size: rand(0.4, 2.0),
       alpha: rand(0.35, 0.9),
       hue: rand(180, 250)
@@ -596,10 +596,28 @@ function drawFrame(t) {
     ctx.restore();
   });
 
-  // === BLACK HOLE ===
-  const bh = blackhole;
-  bh.angle = t * 0.00042;
-  const bx = bh.x, by = bh.y, br = bh.r;
+  // === GALAXY SPIRAL ARMS ===
+    galaxyCore.angle = t * 0.00042;
+    ctx.save();
+    ctx.translate(galaxyCore.x, galaxyCore.y);
+
+    for (let arm = 0; arm < 4; arm++) {
+      const armOffset = (arm / 4) * Math.PI * 2;
+      ctx.beginPath();
+      for (let i = 0; i <= 200; i++) {
+        const frac = i / 200;
+        const angle = galaxyCore.angle + armOffset + frac * Math.PI * 2.5;
+        const radius = galaxyCore.r * 0.2 + frac * galaxyCore.r * 3;
+        const px = Math.cos(angle) * radius;
+        const py = Math.sin(angle) * radius * 0.6;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = `hsla(${200 + arm*20},100%,70%,0.25)`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }  
+    ctx.restore();
+
 
   // Outer atmospheric glow
   for (let i = 5; i > 0; i--) {
@@ -632,6 +650,15 @@ function drawFrame(t) {
   }
   ctx.restore();
 
+  const coreGrad = ctx.createRadialGradient(galaxyCore.x, galaxyCore.y, 0, galaxyCore.x, galaxyCore.y, galaxyCore.r);
+  coreGrad.addColorStop(0, 'rgba(255,255,200,0.9)');
+  coreGrad.addColorStop(1, 'rgba(255,255,200,0)');
+  ctx.fillStyle = coreGrad;
+  ctx.beginPath();
+  ctx.arc(galaxyCore.x, galaxyCore.y, galaxyCore.r, 0, Math.PI*2);
+  ctx.fill();
+
+
   // Accretion disk (elliptical, tilted)
   ctx.save();
   ctx.translate(bx, by);
@@ -645,27 +672,32 @@ function drawFrame(t) {
   ctx.fillStyle = diskGrad; ctx.fill();
   ctx.restore();
 
-  // Orbital particles
   particles.forEach(p => {
-    p.angle += p.speed * 0.016;
-    const px = bx + Math.cos(p.angle) * p.dist;
-    const py = by + Math.sin(p.angle) * p.dist * 0.35;
+    p.angle += p.speed;
+    const px = galaxyCore.x + Math.cos(p.angle) * p.dist;
+    const py = galaxyCore.y + Math.sin(p.angle) * p.dist * 0.6;
     ctx.save();
-    ctx.globalAlpha = p.alpha * (0.5 + 0.5 * Math.sin(t * 0.003 + p.angle));
+    ctx.globalAlpha = p.alpha;
     ctx.fillStyle = `hsl(${p.hue},100%,75%)`;
-    ctx.beginPath(); ctx.arc(px, py, p.size, 0, Math.PI*2);
+    ctx.beginPath();
+    ctx.arc(px, py, p.size, 0, Math.PI*2);
     ctx.fill();
     ctx.restore();
   });
 
-  // Black hole shadow/void
-  const centerGrad = ctx.createRadialGradient(bx, by, 0, bx, by, br * 0.72);
-  centerGrad.addColorStop(0, '#000000');
-  centerGrad.addColorStop(0.5, '#000510');
-  centerGrad.addColorStop(0.82, 'rgba(0,20,60,0.65)');
-  centerGrad.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.beginPath(); ctx.arc(bx, by, br * 0.72, 0, Math.PI*2);
-  ctx.fillStyle = centerGrad; ctx.fill();
+
+  particles = Array.from({length: 300}, () => {
+  return {
+    angle: rand(0, Math.PI * 2),
+    dist: rand(galaxyCore.r * 0.5, galaxyCore.r * 4),
+    speed: rand(0.001, 0.006),
+    size: rand(0.3, 1.2),
+    alpha: rand(0.3, 0.8),
+    hue: [200, 260, 300][Math.floor(Math.random()*3)] // mavi, mor, pembe
+    };
+  });
+
+  
 
   // Photon ring — event horizon glow
   ctx.beginPath();
