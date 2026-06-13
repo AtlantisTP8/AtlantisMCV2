@@ -272,22 +272,35 @@ nav{
   font-family:'Orbitron',sans-serif;
 }
 
-#server-status {
-  text-align: center;
-  margin-top: 15px;
-  font-family: Arial, sans-serif;
-  color: #fff;
-  position: relative;
-  z-index: 10; /* canvas üstünde görünmesi için */
+.server-box {
+  display: flex;
+  flex-direction: column; /* dikey hizalama */
+  align-items: center;    /* ortalama */
+  gap: 10px;              /* aralarına boşluk */
 }
 
+.server-addr {
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.copy-btn {
+  margin-bottom: 5px;
+}
+
+#server-status {
+  text-align: center;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
 #status-dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;
-  background: #aaa; /* başlangıçta gri */
+  background: #aaa;
 }
 
 
