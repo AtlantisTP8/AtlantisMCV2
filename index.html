@@ -272,6 +272,21 @@ nav{
   font-family:'Orbitron',sans-serif;
 }
 
+#server-status {
+  text-align: center;
+  margin-top: 15px;
+  font-family: Arial, sans-serif;
+  color: #fff;
+}
+#status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+
 </style>
 </head>
 <body>
@@ -290,6 +305,13 @@ nav{
     <button class="copy-btn" id="copyBtn" onclick="copyAddr()">KOPYALA</button>
   </div>
 </section>
+
+<div id="server-status" style="text-align:center; margin-top:15px;">
+  <span id="status-dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#aaa;"></span>
+  <span id="status-sub">Sunucu durumu yükleniyor...</span><br>
+  <span id="status-players"></span>
+</div>
+
 
 <div class="sections">
   <div class="section-card card-vote">
