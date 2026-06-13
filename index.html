@@ -495,7 +495,12 @@ function drawFrame(t) {
   ctx.fillRect(0, 0, W, H);
 
   // === ORION-STYLE NEBULA CLOUDS ===
-  n.x += Math.sin(Date.now()/5000)*0.2;
+
+  nebulaClouds.forEach(n => {
+    n.x += Math.sin(Date.now()/5000) * 0.2;
+  });
+
+  
   nebulaClouds.forEach(n => {
     // Multi-layer for volumetric depth
     const starColors = [
