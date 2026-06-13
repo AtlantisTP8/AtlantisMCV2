@@ -375,7 +375,7 @@ nav{
     <p><strong>İyi Oyunlar Oyuncu!</strong></p>
 
   
-    <h3>👨‍💻 Geliştiriciler</h3>
+    <h3>Geliştiriciler</h3>
     <p>Kurucu: Adesq3113</p>
     <p>Moderatör: Artemis</p>
     <p>Yönetici: OmerEfeAybas</p>
@@ -536,7 +536,7 @@ function drawFrame(t) {
     ctx.restore();
   });
 
-  // Spiral kollar
+  // 4. Spiral kollar
   galaxyCore.angle = t * 0.00042;
   ctx.save();
   ctx.translate(galaxyCore.x, galaxyCore.y);
@@ -559,8 +559,7 @@ function drawFrame(t) {
     ctx.lineWidth = 2;
     ctx.stroke();
   }
-  ctx.restore(); // ← çok önemli
-
+  ctx.restore(); // glow ayarını sıfırlıyoruz
 
   // 5. Çekirdek glow
   const coreGrad = ctx.createRadialGradient(galaxyCore.x, galaxyCore.y, 0, galaxyCore.x, galaxyCore.y, galaxyCore.r);
@@ -588,6 +587,7 @@ function drawFrame(t) {
 
   requestAnimationFrame(drawFrame);
 }
+
 
 window.addEventListener('resize', resize);
 resize();
