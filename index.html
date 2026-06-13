@@ -465,12 +465,12 @@ function init() {
   particles = Array.from({length: 500}, () => ({
     angle: rand(0, Math.PI * 2),
     dist: rand(galaxyCore.r * 0.5, galaxyCore.r * 5),
-    speed: rand(0.001, 0.006),
+    speed: rand(0.001, 0.006) * rand(0.5, 1.5), // hız çeşitliliği
     size: rand(0.2, 1.5),
     alpha: rand(0.3, 0.9),
     hue: [200, 260, 300][Math.floor(Math.random()*3)]
-  }));
-}
+}));
+
 
 function drawEllipse(cx, cy, rx, ry, fillStyle) {
   ctx.save();
