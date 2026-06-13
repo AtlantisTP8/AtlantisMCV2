@@ -216,6 +216,24 @@ nav{
 }
 
 }
+
+.info-section{
+  position:relative;
+  z-index:10;
+  margin:40px 48px;
+  padding:35px;
+  border-radius:15px;
+  background:rgba(0,15,40,.65);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(0,180,255,.25);
+}
+
+.info-section h2{
+  color:#00d4ff;
+  margin-bottom:15px;
+  font-family:'Orbitron',sans-serif;
+}
+
 </style>
 </head>
 <body>
@@ -228,7 +246,7 @@ nav{
   <a href="#iletisim" class="nav-btn">İletişim</a>
 </div>
 
-<section class="hero">
+<section class="hero" id="anasayfa">
   <p class="hero-sub">✦ &nbsp; Yeni Nesil Minecraft Deneyimi &nbsp; ✦</p>
   <h1 class="hero-title">
     <span class="line1">ATLANTIS</span>
@@ -239,6 +257,21 @@ nav{
     <span class="server-addr">ATLANTİS.MİNECRAFT.PARTY</span>
     <button class="copy-btn" id="copyBtn" onclick="copyAddr()">KOPYALA</button>
   </div>
+</section>
+
+<section id="oyver" class="info-section">
+  <h2>🗳️ Oy Ver</h2>
+  <p>AtlantisMC'ye oy vererek ödüller kazan.</p>
+</section>
+
+<section id="hakkimizda" class="info-section">
+  <h2>🌌 Hakkımızda</h2>
+  <p>AtlantisMC gelişmiş sistemler ve kaliteli oyun deneyimi sunar.</p>
+</section>
+
+<section id="iletisim" class="info-section">
+  <h2>📞 İletişim</h2>
+  <p>Discord: discord.gg/XXXX</p>
 </section>
 
 <div class="sections">
