@@ -536,17 +536,16 @@ function drawFrame(t) {
     ctx.restore();
   });
 
-  // 4. Spiral kollar
+  // Spiral kollar
   galaxyCore.angle = t * 0.00042;
   ctx.save();
   ctx.translate(galaxyCore.x, galaxyCore.y);
   const armColors = ['#00aaff','#cc33ff','#ff66cc','#88ddff'];
   for (let arm = 0; arm < 4; arm++) {
-    const armOffset = (arm / 4) * Math.PI * 2;
     ctx.beginPath();
     for (let i = 0; i <= 250; i++) {
       const frac = i / 250;
-      const angle = galaxyCore.angle + armOffset + frac * Math.PI * 2.5;
+      const angle = galaxyCore.angle + (arm/4)*Math.PI*2 + frac * Math.PI * 2.5;
       const radius = galaxyCore.r * 0.2 + frac * galaxyCore.r * 3.5;
       const px = Math.cos(angle) * radius;
       const py = Math.sin(angle) * radius * 0.6;
@@ -560,7 +559,8 @@ function drawFrame(t) {
     ctx.lineWidth = 2;
     ctx.stroke();
   }
-  ctx.restore();
+  ctx.restore(); // ← çok önemli
+
 
   // 5. Çekirdek glow
   const coreGrad = ctx.createRadialGradient(galaxyCore.x, galaxyCore.y, 0, galaxyCore.x, galaxyCore.y, galaxyCore.r);
@@ -603,6 +603,31 @@ function copyAddr() {
     btn.classList.remove('copied');
   }, 2200);
 }
+
+async function loadServerStatus(){
+  const dot = document.getElementById('status-dot');
+  const sub = document.getElementById('status-sub');
+  const pl  = document.getElementById('status-players');
+  if(!dot) return;
+
+  const apis = [
+    {
+      url: 'https://api.mcstatus.io/v2/status/java/atlantis.minecraft.party',
+      parse: d => ({
+        online: d.online,
+        players: d.players?.online ?? 0,
+        max: d.players?.max ?? 1000
+      })
+    },
+    {
+      url: 'https://api.mcsrvstat.us/3/atlantis.minecraft.party',
+      parse: d => ({
+        online: d.online,
+        players: d.players?.online ?? 0,
+        max: d.players?.max ?? 1000
+      })
+    }
+  ];
 
 </script>
 </body>
