@@ -559,10 +559,12 @@ function drawFrame(t) {
   });
 
   // 4. Spiral kollar
+  // Spiral kollar
   galaxyCore.angle = t * 0.00042;
   ctx.save();
   ctx.translate(galaxyCore.x, galaxyCore.y);
   const armColors = ['#00aaff','#cc33ff','#ff66cc','#88ddff'];
+
   for (let arm = 0; arm < 4; arm++) {
     ctx.beginPath();
     for (let i = 0; i <= 250; i++) {
@@ -574,15 +576,20 @@ function drawFrame(t) {
       i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
     }
     const dynamicHue = (200 + (t*0.02) % 100);
+
+    // sadece stroke ayarlarını aç/kapat
+    ctx.save();
     ctx.shadowBlur = 12;
     ctx.shadowColor = armColors[arm];
     ctx.strokeStyle = `hsl(${dynamicHue},100%,70%)`;
     ctx.globalAlpha = 0.25;
     ctx.lineWidth = 2;
     ctx.stroke();
-    ctx.restore():
+    ctx.restore(); // glow ayarını kapat
   }
-  ctx.restore(); // glow ayarını sıfırlıyoruz
+
+  ctx.restore(); // translate’i en sonda kapat
+
 
   // 5. Çekirdek glow
   const coreGrad = ctx.createRadialGradient(galaxyCore.x, galaxyCore.y, 0, galaxyCore.x, galaxyCore.y, galaxyCore.r);
@@ -652,6 +659,9 @@ async function loadServerStatus(){
     }
   ];
 }
+
+window.addEventListener('load', loadServerStatus);
+
 
 </script>
 </body>
