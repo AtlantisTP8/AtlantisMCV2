@@ -7,6 +7,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
+
+/* Global animasyon tanımı */
+@keyframes glowPulse {
+  0%   { text-shadow: 0 0 20px #00aaff; }
+  50%  { text-shadow: 0 0 40px #cc33ff; }
+  100% { text-shadow: 0 0 60px #ff66cc; }
+}
+
+
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#010a1a; font-family:'Rajdhani',sans-serif; color:#fff; overflow-x:hidden; }
 
@@ -86,6 +95,7 @@ nav {
     0 0 70px rgba(0,100,255,0.4),
     0 0 40px #ff66cc,
     0 0 80px rgba(255,100,200,0.5);
+  animation: glowPulse 3s infinite alternate;
 }
 .hero-title .line2 {
   display:block; font-size:clamp(36px,6vw,62px); font-weight:900;
