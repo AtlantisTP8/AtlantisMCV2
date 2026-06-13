@@ -274,17 +274,20 @@ nav{
 
 #server-status {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 20px;
   font-family: Arial, sans-serif;
   color: #fff;
 }
+
 #status-dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;
+  background: #aaa; /* başlangıçta gri */
 }
+
 
 
 </style>
@@ -306,8 +309,8 @@ nav{
   </div>
 </section>
 
-<div id="server-status" style="text-align:center; margin-top:15px;">
-  <span id="status-dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#aaa;"></span>
+<div id="server-status">
+  <span id="status-dot"></span>
   <span id="status-sub">Sunucu durumu yükleniyor...</span><br>
   <span id="status-players"></span>
 </div>
@@ -658,7 +661,27 @@ async function loadServerStatus(){
       })
     }
   ];
+
+  for (const api of apis) {
+    try {
+      const res = await fetch(api.url);
+      const data = await res.json();
+      const parsed = api.parse(data);
+
+      if (parsed.online) {
+        dot.style.background = '#0f0'; // yeşil nokta
+        sub.textContent = 'Sunucu açık';
+        pl.textContent = `Oyuncular: ${parsed.players}/${parsed.max}`;
+        return;
+      }
+    } catch(e) {}
+  }
+
+  dot.style.background = '#f00'; // kırmızı nokta
+  sub.textContent = 'Sunucu kapalı';
+  pl.textContent = '';
 }
+
 
 window.addEventListener('load', loadServerStatus);
 
