@@ -51,6 +51,11 @@ nav {
   text-shadow:0 0 12px #00eeff;
 }
 
+.nav-btn{
+  text-decoration:none;
+  display:inline-block;
+}
+
 .hero {
   position:relative; z-index:10;
   min-height:calc(100vh - 62px);
@@ -174,21 +179,54 @@ nav {
 .card-about:hover { border-color:rgba(160,100,255,0.5); box-shadow:0 0 30px rgba(140,80,255,0.15),0 8px 40px rgba(0,0,0,0.4); }
 .card-about .card-action { color:#bb88ff; border-color:rgba(150,100,255,0.4); }
 .card-about:hover .card-action { color:#ddaaff; border-color:#ddaaff; text-shadow:0 0 8px #ddaaff; }
+
+@media (max-width:768px){
+
+nav{
+  flex-direction:column;
+  padding:15px;
+}
+
+.nav-links{
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.hero{
+  text-align:center;
+  padding:30px 20px;
+}
+
+.server-box{
+  width:100%;
+  flex-direction:column;
+}
+
+.sections{
+  grid-template-columns:1fr;
+  padding:20px;
+}
+
+.hero-title .line1{
+  font-size:58px;
+}
+
+.hero-title .line2{
+  font-size:32px;
+}
+
+}
 </style>
 </head>
 <body>
 <canvas id="space-canvas"></canvas>
 
-<nav>
-  <div class="logo">ATLANTIS MC</div>
-  <div class="nav-links">
-    <button class="nav-btn active">Ana Sayfa</button>
-    <button class="nav-btn">Oy Verme</button>
-    <button class="nav-btn">Haberler</button>
-    <button class="nav-btn">Hakkımızda</button>
-    <button class="nav-btn">İletişim</button>
-  </div>
-</nav>
+<div class="nav-links">
+  <a href="#anasayfa" class="nav-btn active">Ana Sayfa</a>
+  <a href="#oyver" class="nav-btn">Oy Ver</a>
+  <a href="#hakkimizda" class="nav-btn">Hakkımızda</a>
+  <a href="#iletisim" class="nav-btn">İletişim</a>
+</div>
 
 <section class="hero">
   <p class="hero-sub">✦ &nbsp; Yeni Nesil Minecraft Deneyimi &nbsp; ✦</p>
@@ -247,7 +285,11 @@ function init() {
     '#ddeeff','#bbddff',
     '#eeeeff'
   ];
-  stars = Array.from({length: 520}, () => {
+  const mobile = window.innerWidth < 768;
+
+    stars = Array.from({
+      length: mobile ? 180 : 520
+    }, () => {
     const tier = Math.random();
     const isBright = tier > 0.93;
     const isMid = tier > 0.72;
@@ -500,6 +542,8 @@ function copyAddr() {
     btn.classList.remove('copied');
   }, 2200);
 }
+
+
 </script>
 </body>
 </html>
