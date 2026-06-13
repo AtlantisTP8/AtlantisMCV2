@@ -619,34 +619,6 @@ function drawFrame(t) {
     ctx.restore();
 
 
-  // Outer atmospheric glow
-  for (let i = 5; i > 0; i--) {
-    const r = br * (1.6 + i * 0.55);
-    const g = ctx.createRadialGradient(bx, by, br * 0.4, bx, by, r);
-    g.addColorStop(0, `rgba(0,80,220,${0.05/i})`);
-    g.addColorStop(0.5, `rgba(0,50,180,${0.03/i})`);
-    g.addColorStop(1, 'rgba(0,0,40,0)');
-    ctx.beginPath(); ctx.arc(bx, by, r, 0, Math.PI*2);
-    ctx.fillStyle = g; ctx.fill();
-  }
-
-  // Spiral accretion arms
-  ctx.save();
-  ctx.translate(bx, by);
-  for (let arm = 0; arm < 3; arm++) {
-    const armOffset = (arm / 3) * Math.PI * 2;
-    ctx.beginPath();
-    for (let i = 0; i <= 200; i++) {
-      const frac = i / 200;
-      const angle = bh.angle + armOffset + frac * Math.PI * 4;
-      const radius = br * 0.18 + frac * br * 1.85;
-      const px = Math.cos(angle) * radius;
-      const py = Math.sin(angle) * radius * 0.35;
-      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-    }
-    ctx.strokeStyle = `rgba(0,160,255,${0.07 + 0.03 * arm})`;
-    ctx.lineWidth = br * 0.16;
-    ctx.stroke();
   }
   ctx.restore();
 
@@ -658,19 +630,6 @@ function drawFrame(t) {
   ctx.arc(galaxyCore.x, galaxyCore.y, galaxyCore.r, 0, Math.PI*2);
   ctx.fill();
 
-
-  // Accretion disk (elliptical, tilted)
-  ctx.save();
-  ctx.translate(bx, by);
-  ctx.scale(1, 0.32);
-  const diskGrad = ctx.createRadialGradient(0, 0, br * 0.72, 0, 0, br * 1.28);
-  diskGrad.addColorStop(0, 'rgba(0,120,255,0.0)');
-  diskGrad.addColorStop(0.35, 'rgba(40,150,255,0.20)');
-  diskGrad.addColorStop(0.65, 'rgba(0,200,255,0.32)');
-  diskGrad.addColorStop(1, 'rgba(0,80,200,0.0)');
-  ctx.beginPath(); ctx.arc(0, 0, br * 1.28, 0, Math.PI*2);
-  ctx.fillStyle = diskGrad; ctx.fill();
-  ctx.restore();
 
   particles.forEach(p => {
     p.angle += p.speed;
@@ -697,26 +656,7 @@ function drawFrame(t) {
     };
   });
 
-  
 
-  // Photon ring — event horizon glow
-  ctx.beginPath();
-  ctx.arc(bx, by, br*1.4 + Math.sin(t*0.005)*20, 0, Math.PI*2);
-  ctx.strokeStyle = 'rgba(0,200,255,0.3)';
-  ctx.lineWidth = 4;
-  ctx.stroke();
-  ctx.save();
-  ctx.translate(bx, by); ctx.scale(1, 0.32);
-  const ehGrad = ctx.createRadialGradient(0, 0, br * 0.60, 0, 0, br * 0.78);
-  ehGrad.addColorStop(0, 'rgba(0,180,255,0)');
-  ehGrad.addColorStop(0.45, 'rgba(0,200,255,0.52)');
-  ehGrad.addColorStop(0.75, 'rgba(20,230,255,0.78)');
-  ehGrad.addColorStop(1, 'rgba(0,120,255,0)');
-  ctx.beginPath(); ctx.arc(0, 0, br * 0.78, 0, Math.PI*2);
-  ctx.fillStyle = ehGrad; ctx.fill();
-  ctx.restore();
-
-  requestAnimationFrame(drawFrame);
 }
 
 window.addEventListener('resize', resize);
