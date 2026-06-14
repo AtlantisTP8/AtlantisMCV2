@@ -152,10 +152,18 @@ nav {
 }
 
 /* CARDS */
-.sections {
-  position:relative; z-index:10;
-  display:grid; grid-template-columns:repeat(3,1fr);
-  gap:20px; padding:0 48px 60px;
+.sections{
+  position:relative;
+  z-index:10;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(250px,1fr));
+
+  gap:20px;
+
+  padding:0 48px 60px;
 }
 .section-card {
   background:rgba(0,15,40,0.65); border:1px solid rgba(0,150,255,0.2);
@@ -355,6 +363,24 @@ footer.footer {
     <div class="card-body">AtlantisMC'yi kim kurdu, neden kurdu? Ekibimizi ve vizyonumuzu keşfet.</div>
     <span class="card-action">Keşfetmek için Tıkla</span>
   </div>
+</div>
+<div class="section-card card-contact"
+onclick="document.getElementById('iletisim').scrollIntoView({behavior:'smooth'})">
+
+    <span class="card-icon">📞</span>
+
+    <div class="card-title">
+        İletişim
+    </div>
+
+    <div class="card-body">
+        Discord sunucumuz üzerinden bizimle iletişime geç.
+    </div>
+
+    <span class="card-action">
+        İletişime Git
+    </span>
+
 </div>
 
 <footer class="footer">
