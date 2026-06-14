@@ -603,6 +603,7 @@ function drawFrame(t) {
   galaxyCore.angle = t * 0.00042;
   ctx.save();
   ctx.translate(galaxyCore.x, galaxyCore.y);
+  ctx.rotate(-0.35);
   const armColors = ['#00aaff','#cc33ff','#ff66cc','#88ddff'];
 
   for (let arm = 0; arm < 4; arm++) {
@@ -612,7 +613,7 @@ function drawFrame(t) {
       const angle = galaxyCore.angle + (arm/4)*Math.PI*2 + frac * Math.PI * 2.5;
       const radius = galaxyCore.r * 0.2 + frac * galaxyCore.r * 3.5;
       const px = Math.cos(angle) * radius;
-      const py = Math.sin(angle) * radius * 0.6;
+      const py = Math.sin(angle) * radius * 0.35;
       i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
     }
     const dynamicHue = (200 + (t*0.02) % 100);
